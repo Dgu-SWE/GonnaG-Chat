@@ -37,7 +37,13 @@ async def process_user_query(user_query: str, id: int) -> str:
         res = agent(user_info=user_data, class_list=classes_data, question=user_query)
         return res.answer
 
-    else:
+    elif "general" in intent:
         agent = dspy.Predict("question -> answer")
         res = agent(question=user_query)
+        return res.answer
+
+    elif "test" in intent:
+        response = await test_mcp()
+        agent = dspy.Predict(TestMcpSiganture)
+        res = agent(result=response, question=user_query)
         return res.answer
