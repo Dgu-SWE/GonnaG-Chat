@@ -10,7 +10,9 @@ async def generate_response(request: ChatRequest):
     try:
         user_query = request.messages
 
-        reponse_content = await process_user_query(user_query=user_query, id=request.id)
+        reponse_content = await process_user_query(
+            user_query=user_query, user_id=request.user_id
+        )
 
         return {"role": "assistnt", "content": reponse_content}
     except Exception as e:
