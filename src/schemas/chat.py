@@ -8,9 +8,9 @@ class Message(BaseModel):
 
 
 class ChatRequest(BaseModel):
-    id: int
+    user_id: int
     model: str = "gpt-4o"
     messages: List[Message]
     temperature: float = 0.7
 
-    
+
