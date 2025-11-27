@@ -8,7 +8,7 @@ lm = dspy.LM("openai/gpt-4o", api_key=OPEN_API_KEY)
 dspy.configure(lm=lm)
 
 
-async def process_user_query(user_query: str, id: int) -> str:
+async def process_user_query(user_query: str, user_id: int) -> str:
     router = RouterAgent()
     pred = router(question=user_query)
     intent = pred.intent.lower().strip()
@@ -16,8 +16,8 @@ async def process_user_query(user_query: str, id: int) -> str:
     print(f"[Debug] 의도 분석 {intent}")
 
     if "graduiation" in intent:
-        user_data = await fetch_user_info(id)
-        guide_data = await fetch_academic_guide(id)
+        user_data = await fetch_user_info(user_id)
+        guide_data = await fetch_academic_guide(user_id)
 
         agent = dspy.Predict(GraduationSignature)
         res = agent(user_info=user_data, guide=guide_data, question=user_query)
