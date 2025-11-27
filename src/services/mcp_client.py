@@ -2,6 +2,19 @@ import httpx
 from src.config import SPRING_BASE_URL
 
 
+async def test_mcp():
+    """mcp 테스트용 함수"""
+
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(SPRING_BASE_URL + "/mcp")
+            response.raise_for_status()
+            return response.text
+        
+    except Exception as e:
+        return f"테스트 실패 {str(e)}"
+
+
 async def _post(endpoint: str, id: int) -> str:
     """내부 공통 POST 요청 함수"""
     url = f"{SPRING_BASE_URL}{endpoint}"
