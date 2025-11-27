@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing_extensions import List
+from typing import List, Optional
 
 
 class Message(BaseModel):
@@ -8,6 +8,9 @@ class Message(BaseModel):
 
 
 class ChatRequest(BaseModel):
+    id: int
     model: str = "gpt-4o"
     messages: List[Message]
     temperature: float = 0.7
+
+    

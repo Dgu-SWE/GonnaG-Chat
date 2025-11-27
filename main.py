@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from src.routes import router
+from src.api.routes import router
 
 app = FastAPI(title="나도 졸업할래 챗봇서버")
 
