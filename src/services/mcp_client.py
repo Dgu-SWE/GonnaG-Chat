@@ -5,6 +5,7 @@ from src.config import SPRING_BASE_URL
 async def test_mcp():
     """mcp 테스트용 함수"""
 
+    print(SPRING_BASE_URL + "/mcp")
     try:
         async with httpx.AsyncClient() as client:
             response = await client.get(SPRING_BASE_URL + "/mcp")
