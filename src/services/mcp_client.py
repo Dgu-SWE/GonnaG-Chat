@@ -10,7 +10,7 @@ async def test_mcp():
             response = await client.get(SPRING_BASE_URL + "/mcp")
             response.raise_for_status()
             return response.text
-        
+
     except Exception as e:
         return f"테스트 실패 {str(e)}"
 
@@ -31,7 +31,7 @@ async def _post(endpoint: str, id: int) -> str:
 
 
 async def fetch_announcements(id: int):
-    return await _post("/mcp/announcemets", id)
+    return await _post("/mcp/announcements", id)
 
 
 async def fetch_user_info(id: int):
