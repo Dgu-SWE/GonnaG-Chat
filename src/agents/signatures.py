@@ -4,13 +4,36 @@ from typing import Literal
 
 class RouterSignature(dspy.Signature):
     """
-    사용자의 질문을 분석하여 가장 적절한 담당 에이전트의 의도(intent)를 분류합니다.
+    사용자의 질문을 분석하여 가장 적절한 의도(intent)를 분류합니다.
+
+    1. user_info: 사용자의 이름, 학번, 학점, 전공 등 개인 정보를 물어보는 경우
+    2. graduation: 졸업 요건, 남은 학점, 졸업 가능 여부 등
+    3. announcement: 학교 공지사항, 장학금 공지 등
+    4. recommendation: 수업 추천, 꿀교양 등
+    5. test: 시스템 테스트 관련
+    6. general: 그 외 일상 대화
     """
 
     question = dspy.InputField(desc="사용자의 질문")
     intent: Literal[
-        "graduation", "announcement", "recommendation", "general", "test"
+        "user_info",
+        "graduation",
+        "announcement",
+        "recommendation",
+        "test",
+        "general",
     ] = dspy.OutputField(desc="의도 분류 결과")
+
+
+class UserInfoSignature(dspy.Signature):
+    """
+    당신은 학사 정보 관리자입니다.
+    제공된 'user_data'(학생 정보)를 바탕으로 사용자의 질문에 친절하게 답변하세요.
+    """
+
+    user_data = dspy.InputField(desc="조회된 학생 정보")
+    question = dspy.InputField(desc="사용자의 질문")
+    answer = dspy.OutputField(desc="답변")
 
 
 class GraduationSignature(dspy.Signature):
@@ -46,8 +69,9 @@ class RecommendationSignature(dspy.Signature):
     answer = dspy.OutputField(desc="답변")
 
 
-class TestMcpSiganture(dspy.Signature):
+class TestMcpSignature(dspy.Signature):
     """당신은 SPRING 서버에 구현된 mcp를 호출할 수 있습니다. /mcp로 요청하면 테스트 결과를 확인할 수 있습니다. 실행결과를 보고하세요"""
+
     result = dspy.InputField(desc="실행결과")
     question = dspy.InputField(desc="질문")
     answer = dspy.OutputField(desc="외부 서버 mcp 실행에대한 결과 보고")
