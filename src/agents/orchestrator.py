@@ -15,7 +15,16 @@ async def process_user_query(user_query: str, user_id: int) -> str:
 
     print(f"[Debug] 의도 분석 {intent}")
 
-    if "graduiation" in intent:
+    if "user_info" in intent:
+        # Spring에서 정보 가져오기
+        user_data = await fetch_user_info(user_id)
+
+        # 답변 생성
+        agent = dspy.Predict(UserInfoSignature)
+        res = agent(user_data=user_data, question=user_query)
+        return res.answer
+
+    elif "graduation" in intent:
         user_data = await fetch_user_info(user_id)
         guide_data = await fetch_academic_guide(user_id)
 
@@ -23,15 +32,15 @@ async def process_user_query(user_query: str, user_id: int) -> str:
         res = agent(user_info=user_data, guide=guide_data, question=user_query)
         return res.answer
     elif "announcement" in intent:
-        news_data = await fetch_announcements(id)
+        news_data = await fetch_announcements(user_id)
 
         agent = dspy.Predict(AnnouncementSignature)
         res = agent(announcements=news_data, question=user_query)
         return res.answer
 
     elif "recommendation" in intent:
-        user_data = await fetch_user_info(id)
-        classes_data = await fetch_class_info(id)
+        user_data = await fetch_user_info(user_id)
+        classes_data = await fetch_class_info(user_id)
 
         agent = dspy.Predict(RecommendationSignature)
         res = agent(user_info=user_data, class_list=classes_data, question=user_query)
@@ -44,6 +53,6 @@ async def process_user_query(user_query: str, user_id: int) -> str:
 
     elif "test" in intent:
         response = await test_mcp()
-        agent = dspy.Predict(TestMcpSiganture)
+        agent = dspy.Predict(TestMcpSignature)
         res = agent(result=response, question=user_query)
         return res.answer
