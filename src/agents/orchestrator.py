@@ -31,6 +31,7 @@ async def process_user_query(user_query: str, user_id: int) -> str:
         agent = dspy.Predict(GraduationSignature)
         res = agent(user_info=user_data, guide=guide_data, question=user_query)
         return res.answer
+    
     elif "announcement" in intent:
         news_data = await fetch_announcements(user_id)
 
