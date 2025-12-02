@@ -38,7 +38,7 @@ async def process_user_query(user_query: str, user_id: int) -> str:
 
     elif "recommendation" in intent:
         user_data = await fetch_user_info(user_id)
-        classes_data = await fetch_class_info(user_id)
+        classes_data = await fetch_class_info()
 
         agent = dspy.Predict(RecommendationSignature)
         res = agent(user_info=user_data, class_list=classes_data, question=user_query)
