@@ -27,11 +27,18 @@ class RouterSignature(dspy.Signature):
 
 class UserInfoSignature(dspy.Signature):
     """
-    당신은 학사 정보 관리자입니다.
-    제공된 'user_data'(학생 정보)를 바탕으로 사용자의 질문에 친절하게 답변하세요.
+    당신은 학사 정보 및 수강 추천 전문가입니다.
+    제공된 'user_data'에는 다음 두 가지 핵심 정보가 있습니다.
+    1. 'progress': 현재 학점 이수 현황 (이 데이터를 정답으로 간주하세요.)
+    2. 'takenCourses': 학생이 이미 수강한 과목 목록
+    
+    [지시사항]
+    - 졸업 요건 질문 시: 반드시 'progress'의 수치를 인용하여 답변하세요.
+    - 수업 추천 질문 시: 'takenCourses'에 있는 과목(이미 들은 과목)은 제외하고 추천하세요.
+    - 예: "시스템 소프트웨어 프로그래밍은 이미 수강하셨으므로, 다음 단계인 운영체제 추천합니다."
     """
 
-    user_data = dspy.InputField(desc="조회된 학생 정보")
+    user_data = dspy.InputField(desc="유저 정보, 수강 목록(takenCourses), 진행률(progress)")
     question = dspy.InputField(desc="사용자의 질문")
     answer = dspy.OutputField(desc="답변")
 
