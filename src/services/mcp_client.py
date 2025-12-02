@@ -43,8 +43,8 @@ async def _post(endpoint: str, id: int) -> str:
         return f"데이터 조회 실패 {str(e)}"
 
 
-async def fetch_announcements(id: int):
-    return await _post("/mcp/announcements", id)
+async def fetch_announcements():
+    return await _get("/mcp/announcements")
 
 
 async def fetch_user_info(id: int):

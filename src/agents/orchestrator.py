@@ -30,7 +30,7 @@ async def process_user_query(user_query: str, user_id: int) -> str:
         return res.answer
 
     elif "announcement" in intent:
-        news_data = await fetch_announcements(user_id)
+        news_data = await fetch_announcements()
 
         agent = dspy.Predict(AnnouncementSignature)
         res = agent(announcements=news_data, question=user_query)
